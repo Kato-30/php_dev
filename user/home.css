@@ -1,0 +1,206 @@
+a {
+    text-decoration: none;
+}
+
+.logo {
+    padding: 10px 0px;
+}
+
+.logo img {
+    height: 85px;
+}
+
+.bg-nav,
+footer {
+    background-color: #1e3769 !important;
+}
+
+.bg-nav a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.section1 {
+    background-color: #E6811E;
+}
+
+.section1,
+.section2 {
+    padding: 30px 0px;
+}
+
+h4.title-tamnhin-sumenh {
+    font-family: arial;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    border: solid 4px white;
+    width: 60%;
+    margin: 0 auto;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.sec-1 .box-image img {
+    border: 2px #000000 solid;
+    border-radius: 50%;
+}
+
+.sec-1 .box-text-inner h3 {
+    margin-bottom: unset;
+    background: #21a4f6;
+    padding: 4px;
+    color: #ffffff !important;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 13px;
+    border: 1px #000000 solid;
+    border-bottom: 0px;
+}
+
+.sec-1 .box-text-inner p {
+    font-family: arial;
+    font-size: 14px;
+    color: #000000 !important;
+    padding-left: 65px;
+    padding-right: 20px;
+    background: #ffffff;
+    margin-top: -1px;
+    border: 1px #000000 solid;
+    text-align: justify;
+    height: 140px;
+}
+
+.sec-1 .box-text-inner {
+    position: relative;
+}
+
+.sec-1 .box-image {
+    position: absolute;
+    z-index: 10;
+    margin-left: -80px;
+}
+
+h4.title-mohinhdaotao {
+    font-family: arial;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: bold;
+    color: #01588e;
+    text-align: center;
+    border: solid 4px #01588e;
+    width: 60%;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+.sec-2 .box-text-inner {
+    padding: 0px 20px;
+    text-align: justify;
+}
+
+.sec-2 .box-text-inner h4 {
+    font-family: arial;
+    text-transform: uppercase;
+    font-size: 19px;
+    font-weight: bold;
+    color: #01588e;
+}
+
+h4.title-why {
+    font-family: arial;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    border: solid 4px white;
+    width: 60%;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+.sec-3 .content1 {
+    border-top: 2px solid white;
+    position: relative;
+    margin-bottom: 20px;
+    text-align: justify;
+    padding-right: 20px;
+}
+
+.sec-3 .content1::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    top: 0;
+    width: 2px;
+    height: 50px;
+    background: white;
+}
+
+.sec-3 .content2 {
+    border-bottom: 2px solid white;
+    position: relative;
+    margin-bottom: 20px;
+    text-align: justify;
+    padding-left: 20px;
+}
+
+.sec-3 .content2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    bottom: 0;
+    width: 3px;
+    height: 50px;
+    background: white;
+}
+
+
+
+
+
+
+
+
+span.title {
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: .05em;
+    line-height: 1.05;
+    text-transform: uppercase;
+}
+
+footer {
+    color: white;
+    line-height: 1.7;
+}
+
+footer .is-divider {
+    margin-top: 0.66em;
+    background-color: rgba(0, 0, 0, .1);
+    display: block;
+    height: 3px;
+    margin: 1em 0;
+    max-width: 30px;
+    width: 100%;
+}
+
+footer .iconsocsical li {
+    list-style: none;
+    display: inline-block;
+}
+
+footer .tab-localtion a {
+    color: white;
+    font-size: 18px;
+}
+
+footer .tab-localtion a:hover {
+    color: black;
+}
