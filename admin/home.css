@@ -1,0 +1,32 @@
+a {
+    text-decoration: none;
+}
+
+.logo {
+    padding: 10px 0px;
+}
+
+.logo img {
+    height: 85px;
+}
+
+.bg-nav,
+footer {
+    background-color: #1e3769 !important;
+}
+
+.bg-nav a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.menu {
+    height: 100vh;
+    background-color: rgb(209, 209, 209);
+    
+}
+
+.menu a {
+    background-color: rgb(209, 209, 209);
+}

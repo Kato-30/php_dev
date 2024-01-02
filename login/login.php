@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+
+<?php
+include("login_acc.php");
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['acc'];
+    $password = $_POST['password'];
+
+    $success = Login::GetAcc($username, $password);
+
+    if ($success) {
+        $_SESSION['username'] = $username;
+        header("location: /myapp/php_dev/user/home.html");
+    }
+}
+
+?>
+
 <html lang="en">
 
 <head>
@@ -57,7 +75,7 @@
                         <h4 class="modal-title">Đăng nhập</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="">
+                        <form action="" method="post">
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label for="acc" class="form-label">Email <span class="text-danger">*</span></label>
