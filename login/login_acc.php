@@ -49,8 +49,7 @@ class HoSo
     public $trangthai;
     public $giayto;
 
-
-    public function __construct($ma, $hd, $t, $ns, $gt, $sdt, $email, $tt, $g)
+    public function __construct($ma, $hd, $t, $ns, $gt, $sdt, $email, $tt, $giayto)
     {
         $this->ma = $ma;
         $this->hodem = $hd;
@@ -60,19 +59,20 @@ class HoSo
         $this->sdt = $sdt;
         $this->email = $email;
         $this->trangthai = $tt;
-        $this->giayto = $g;
+        $this->giayto = $giayto;
     }
     public function __destruct()
     {
 
     }
 
-    public static function Add(HoSo $hoso)
+    public static function Add(HoSo $hoso, string $mk)
     {
         $success = false;
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL ThemHoSo(?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssissssisi", $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email, $hoso->trangthai, $hoso->giayto, $hoso->ma);
+        $stmt->bind_param("sssissssisi", $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email, $hoso->trangthai, $hoso->giayto, $hoso->ma, $mk, $quyen);
+        $quyen = 0;
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();

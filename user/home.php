@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     } else {
                         ?>
                         <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
-                            href="/myapp/php_dev/login/regis.html">Sign in</a>
+                            href="/myapp/php_dev/login/regis.php">Sign in</a>
                         <?php
                     }
                     ?>

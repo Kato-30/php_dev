@@ -1,4 +1,33 @@
 <!DOCTYPE html>
+<?php
+include("login_acc.php");
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $ma = "";
+    $hodem = $_POST["lname"];
+    $ten = $_POST["fname"];
+    $ngaysinh = $_POST["dob"];
+    $gioitinh = $_POST["gender"];
+    $sdt = $_POST["phone"];
+    $email = $_POST["email"];
+    $trangthai = "";
+    $giayto = "";
+    $matkhau = $_POST["password"];
+
+    $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email, $trangthai, $giayto);
+
+    $success = HoSo::Add($hoSo, $matkhau);
+
+    if ($success) {
+        echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
+        header("location: /myapp/php_dev/login/login.php");
+    } else {
+        echo "<script>alert(\"Đăng ký tài khoản không thành công!\");</script>";
+    }
+}
+
+?>
+
 <html lang="en">
 
 <head>
@@ -57,7 +86,7 @@
                         <h4 class="modal-title">Đăng ký</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="">
+                        <form action="" method="post">
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="lname" class="form-label">Họ đệm <span
@@ -83,19 +112,19 @@
                                     <div class="row" style="padding-left: inherit;">
                                         <div class="col form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="male"
-                                                value="male" checked>
+                                                value="0">
                                             <label class="form-check-label" for="male">Nam</label>
                                         </div>
 
                                         <div class="col form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="female"
-                                                value="female">
+                                                value="1">
                                             <label class="form-check-label" for="female">Nữ</label>
                                         </div>
 
                                         <div class="col form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="other"
-                                                value="other">
+                                                value="-1">
                                             <label class="form-check-label" for="other">Khác</label>
                                         </div>
                                     </div>

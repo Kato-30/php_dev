@@ -7,12 +7,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["acc"];
     $password = $_POST["password"];
 
-    $success = Login::GetAcc($username, $password);
+    $success = Login::EditAcc($username, $password);
 
     if ($success) {
-        $_SESSION["username"] = $username;
-        setcookie("username", $username, time() + (86400 * 30), "/");
-        header("location: /myapp/php_dev/user/home.php");
+        echo "<script>alert(\"Đổi mật khẩu thành công!\");</script>";
+        header("location: /myapp/php_dev/login/login.php");
+    } else {
+        echo "<script>alert(\"Đổi mật khẩu không thành công!\");</script>";
     }
 }
 
@@ -34,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
     <link rel="stylesheet" href="/myapp/php_dev/user/home.css">
     <script src="/myapp/php_dev/user/home.js"></script>
-    <title>Login</title>
+    <title>Change Password</title>
 </head>
 
 <body>
@@ -73,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container w-75 p-5">
                 <div class="modal-content border border-2 border-primary rounded p-3 bg-primary-subtle">
                     <div class="modal-header mb-3">
-                        <h4 class="modal-title">Đăng nhập</h4>
+                        <h4 class="modal-title">Đổi mật khẩu</h4>
                     </div>
                     <div class="modal-body">
                         <form action="" method="post">
@@ -104,25 +105,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-4 offset-md-3">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="remember"> Ghi nhớ đăng
-                                        nhập
-                                    </label>
+                                <div class="col-md-3">
+                                    <label for="checkpassword" class="form-label">Xác nhận mật khẩu <span
+                                            class="text-danger">*</span></label>
                                 </div>
-                                <div class="col-md-5">
-                                    <label for="forgotpass" class="form-label"><a
-                                            href="/myapp/php_dev/login/editpass.php" class="text-decoration-none">Quên
-                                            mật khẩu</a></label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <div class="input-group-text"><i class="bi bi-lock-fill"></i>
+                                        </div>
+                                        <input type="password" class="form-control" name="checkpassword"
+                                            id="checkpassword" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary shadow">Đăng
-                                        nhập</button>
-                                    <label for="regis" class="form-label"><a href="/myapp/php_dev/login/regis.php"
-                                            class="ps-3 text-decoration-none">Đăng ký tài khoản</a></label>
-                                </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary shadow">Đổi mật khẩu</button>
                             </div>
                         </form>
                     </div>
