@@ -4,13 +4,14 @@
 include("login_acc.php");
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['acc'];
-    $password = $_POST['password'];
+    $username = $_POST["acc"];
+    $password = $_POST["password"];
 
     $success = Login::GetAcc($username, $password);
 
     if ($success) {
-        $_SESSION['username'] = $username;
+        $_SESSION["username"] = $username;
+        setcookie("username", $username, time() + (86400*30), "/");
         header("location: /myapp/php_dev/user/home.html");
     }
 }

@@ -1,4 +1,26 @@
 <!DOCTYPE html>
+<?php
+session_start();
+$isLogin = false;
+$username = "";
+if (isset($_SESSION["username"])) {
+    $isLogin = true;
+    $username = $_SESSION["username"];
+} elseif (isset($_COOKIE["username"])) {
+    $isLogin = true;
+    $username = $_COOKIE["username"];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST["guiketqua"])) {
+        if ($isLogin === false) {
+            echo "<script>alert(\"Vui lòng đăng nhập để ứng tuyển!\");</script>";
+        } else {
+            // Lệnh thêm vào csdl
+        }
+    }
+}
+?>
 <html lang="en">
 
 <head>
@@ -49,7 +71,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="">
+                                        <form action="" method="post">
                                             <div class="mb-3">
                                                 <label for="ht" class="form-label">Hình thức xét tuyển <span
                                                         class="text-danger">*</span></label>
@@ -114,7 +136,8 @@
                                                         required>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary shadow w-100">Gửi</button>
+                                            <button type="submit" name="guiketqua"
+                                                class="btn btn-primary shadow w-100">Gửi</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -136,9 +159,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- php -->
-                                        Trượt
-                                        <!--  -->
+                                        Chưa có thông tin
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger"
@@ -150,8 +171,16 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
-                        href="/myapp/php_dev/login/regis.html">Sign in</a>
+                    <?php
+                    if ($isLogin) {
+                        echo $username;
+                    } else {
+                        ?>
+                        <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
+                            href="/myapp/php_dev/login/regis.html">Sign in</a>
+                        <?php
+                    }
+                    ?>
                 </span>
             </div>
         </div>
