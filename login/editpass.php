@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert(\"Đổi mật khẩu thành công!\");</script>";
         header("location: /myapp/php_dev/login/login.php");
     } else {
-        echo "<script>alert(\"Đổi mật khẩu không thành công!\");</script>";
+        echo "<script>alert(\"Đổi mật khẩu thất bại!\");</script>";
     }
 }
 

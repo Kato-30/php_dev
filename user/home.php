@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+
 session_start();
 $isLogin = false;
 $username = "";
@@ -159,7 +160,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Chưa có thông tin
+                                        <?php
+                                        if ($isLogin === true) {
+                                            // Hiển thị trạng thái các hồ sơ
+                                        } else {
+                                        ?>
+                                            <strong>Chưa có thông tin</strong>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger"
@@ -172,13 +181,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
                 <span class="navbar-text">
                     <?php
-                    if ($isLogin) {
-                        echo $username;
+                    if ($isLogin === true) {
+                        echo $username . "<span> | </span><a
+                        href=\"/myapp/php_dev/login/logout.php\">Logout</a>";
                     } else {
-                        ?>
+                    ?>
                         <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
                             href="/myapp/php_dev/login/regis.php">Sign in</a>
-                        <?php
+                    <?php
                     }
                     ?>
                 </span>

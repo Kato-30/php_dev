@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
         header("location: /myapp/php_dev/login/login.php");
     } else {
-        echo "<script>alert(\"Đăng ký tài khoản không thành công!\");</script>";
+        echo "<script>alert(\"Đăng ký tài khoản thất bại!\");</script>";
     }
 }
 

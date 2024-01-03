@@ -13,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["username"] = $username;
         setcookie("username", $username, time() + (86400 * 30), "/");
         header("location: /myapp/php_dev/user/home.php");
+    } else {
+        echo "<script>alert(\"Đăng nhập thất bại!\");</script>";
     }
 }
 
