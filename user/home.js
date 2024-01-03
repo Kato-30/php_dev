@@ -39,6 +39,3 @@ function addOption(selectElement, text, value) {
 
 
 
-//ktra 
-
-

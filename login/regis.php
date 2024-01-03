@@ -2,6 +2,8 @@
 <?php
 include("login_acc.php");
 session_start();
+$ma = $hodem = $ten = $ngaysinh = $gioitinh = $sdt = $email = $trangthai = $giayto = $matkhau = $ktramk = "";
+$errSdt = $errPass = $errCheckpass = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ma = null;
     $hodem = $_POST["lname"];
@@ -13,17 +15,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $trangthai = null;
     $giayto = null;
     $matkhau = $_POST["password"];
+    $ktramk = $_POST["checkpassword"];
 
+    if (strlen($sdt) != 10) {
+        $errSdt = "Số điện thoại không hợp lệ!";
+        // echo "<script>alert(\"Số điện thoại không hợp lệ!\");</script>";
+    }
+    if (strlen($matkhau) < 8 || containsSpecialCharacters($matkhau) == false) {
+        $errPass = "Mật khẩu phải chứa ít nhất 8 ký tự và 1 ký tự đặc biệt!";
+        // echo "<script>alert(\"Mật khẩu phải chứa ít nhất 8 ký tự và 1 ký tự đặc biệt!\");</script>";
+    }
+    if ($matkhau != $ktramk) {
+        $errCheckpass = "Nhập lại mật khẩu không trùng khớp!";
+        // echo "<script>alert(\"Nhập lại mật khẩu không trùng khớp!\");</script>";
+    }
     $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email, $trangthai, $giayto);
 
     $success = HoSo::Add($hoSo, $matkhau);
 
     if ($success) {
-        echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
+        // echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
         header("location: /myapp/php_dev/login/login.php");
     } else {
         echo "<script>alert(\"Đăng ký tài khoản thất bại!\");</script>";
     }
+}
+
+function containsSpecialCharacters($input)
+{
+    $regex = "/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/";
+    return preg_match($regex, $input);
 }
 
 ?>
@@ -86,25 +107,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h4 class="modal-title">Đăng ký</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post">
+                        <form action="" method="post" id="formRegis">
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="lname" class="form-label">Họ đệm <span
-                                            class="text-danger">*</span></label>
+                                    <label for="lname" class="form-label">Họ đệm <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="lname" name="lname" required
-                                        placeholder="Nhập họ và tên đệm của bạn...">
+                                        placeholder="Nhập họ và tên đệm của bạn..." value="<?php echo $hodem ?>">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="fname" class="form-label">Tên <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="fname" name="fname" required
-                                        placeholder="Nhập tên của bạn...">
+                                        placeholder="Nhập tên của bạn..." value="<?php echo $ten ?>">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="dob" class="form-label">Ngày sinh <span
                                             class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="dob" name="dob" required>
+                                    <input type="date" class="form-control" id="dob" name="dob" required
+                                        value="<?php echo $ngaysinh ?>">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="gender" class="form-label">Giới tính <span
@@ -112,36 +133,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="row" style="padding-left: inherit;">
                                         <div class="col form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="male"
-                                                value="0">
+                                                value="0" required <?php if ($gioitinh == 0)
+                                                    echo "checked" ?>>
                                             <label class="form-check-label" for="male">Nam</label>
                                         </div>
-
                                         <div class="col form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="female"
-                                                value="1">
+                                                    value="1" required <?php if ($gioitinh == 1)
+                                                    echo "checked" ?>>
                                             <label class="form-check-label" for="female">Nữ</label>
                                         </div>
-
                                         <div class="col form-check">
                                             <input class="form-check-input" type="radio" name="gender" id="other"
-                                                value="-1">
+                                                    value="-1" required <?php if ($gioitinh == -1)
+                                                    echo "checked" ?>>
                                             <label class="form-check-label" for="other">Khác</label>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="phone" class="form-label">Số điện thoại <span
-                                            class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="phone" name="phone" required
-                                        placeholder="SĐT...">
+                                            placeholder="SĐT..." value="<?php echo $sdt ?>">
+                                    <span class="text-danger">
+                                        <?php echo $errSdt ?>
+                                    </span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email <span
                                             class="text-danger">*</span></label>
                                     <input type="email" class="form-control" id="email" name="email" required
-                                        placeholder="Email...">
+                                        placeholder="Email..." value="<?php echo $email ?>">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -150,12 +175,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             class="text-danger">*</span></label>
                                     <input type="password" class="form-control" name="password" id="password" required
                                         placeholder="...">
+                                    <span class="text-danger">
+                                        <?php echo $errPass ?>
+                                    </span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="checkpassword" class="form-label">Xác nhận mật khẩu <span
                                             class="text-danger">*</span></label>
                                     <input type="password" class="form-control" name="checkpassword" id="checkpassword"
                                         required placeholder="...">
+                                    <span class="text-danger">
+                                        <?php echo $errCheckpass ?>
+                                    </span>
                                 </div>
                             </div>
                             <div class="text-center">

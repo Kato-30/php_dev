@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h4 class="modal-title">Đăng nhập</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post">
+                        <form action="" method="post" id="formLogin">
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label for="acc" class="form-label">Email <span class="text-danger">*</span></label>
@@ -108,7 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="row mb-3">
                                 <div class="col-md-4 offset-md-3">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="remember" checked> Ghi nhớ đăng nhập
+                                        <input class="form-check-input" type="checkbox" name="remember" checked> Ghi nhớ
+                                        đăng nhập
                                     </label>
                                 </div>
                                 <div class="col-md-5">
