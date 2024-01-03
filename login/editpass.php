@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <label for="password" class="form-label">Mật khẩu <span
+                                    <label for="password" class="form-label">Mật khẩu mới <span
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-9">
