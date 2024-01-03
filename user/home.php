@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-
+include("hoso.php");
 session_start();
 $isLogin = false;
 $username = "";
@@ -13,11 +13,22 @@ if (isset($_SESSION["username"])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $hoso = HoSo::Get($username);
+    $mahs = $hoso;
+    $nganh = $_POST["major"];
+    $hinhthuc = $_POST["hinhthuc"];
+    $tohop = $_POST["tohop"];
+    $d1 = $_POST["sbj1"];
+    $d2 = $_POST["sbj2"];
+    $d3 = $_POST["sbj3"];
+
     if (isset($_POST["guiketqua"])) {
         if ($isLogin === false) {
-            echo "<script>alert(\"Vui lòng đăng nhập để ứng tuyển!\");</script>";
+            echo "<script>alert(\"Vui lòng đăng nhập để xét tuyển!\");</script>";
         } else {
-            // Lệnh thêm vào csdl
+            $chon = new ChonNganh($mahs, $nganh, $hinhthuc, $tohop, $d1, $d2, $d3);
+            ChonNganh::Add($chon);
+            echo "<script>alert(\"Cảm ơn bạn đã xét tuyển!\");</script>";
         }
     }
 }
@@ -162,11 +173,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="modal-body">
                                         <?php
                                         if ($isLogin === true) {
-                                            // Hiển thị trạng thái các hồ sơ
+                                            $tt = ChonNganh::XemTrangThai($username);
+                                            if ($tt === "") {
+                                                echo "<strong>Chưa có thông tin</strong>";
+                                            } else {
+                                                echo "<strong>" . $tt . "</strong>";
+                                            }
                                         } else {
-                                        ?>
+                                            ?>
                                             <strong>Chưa có thông tin</strong>
-                                        <?php
+                                            <?php
                                         }
                                         ?>
                                     </div>
@@ -182,13 +198,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <span class="navbar-text">
                     <?php
                     if ($isLogin === true) {
-                        echo $username . "<span> | </span><a
+                        echo "<span style=\"color: white\">" .$username. " | </span><a
                         href=\"/myapp/php_dev/login/logout.php\">Logout</a>";
                     } else {
-                    ?>
+                        ?>
                         <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
                             href="/myapp/php_dev/login/regis.php">Sign in</a>
-                    <?php
+                        <?php
                     }
                     ?>
                 </span>

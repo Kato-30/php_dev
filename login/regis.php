@@ -3,15 +3,15 @@
 include("login_acc.php");
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ma = "";
+    $ma = null;
     $hodem = $_POST["lname"];
     $ten = $_POST["fname"];
     $ngaysinh = $_POST["dob"];
     $gioitinh = $_POST["gender"];
     $sdt = $_POST["phone"];
     $email = $_POST["email"];
-    $trangthai = "";
-    $giayto = "";
+    $trangthai = null;
+    $giayto = null;
     $matkhau = $_POST["password"];
 
     $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email, $trangthai, $giayto);

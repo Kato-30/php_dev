@@ -75,17 +75,18 @@ class HoSo
 
     public static function Get(string $tukhoa)
     {
+        $maHoSo = "";
         $conn = DBConnection::Connect();
-        $stmt = $conn->prepare("CALL TimHoSo(?)");
+        $stmt = $conn->prepare("SELECT mahoso FROM tbhoso WHERE email = ?");
         $stmt->bind_param("s", $tukhoa);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($row = $result->fetch_assoc()) {
-            $HoSo = new HoSo($row["mahoso"], $row["hodem"], $row["ten"], $row["ngaysinh"], $row["gioitinh"], $row["sdt"], $row["email"], $row["trangthai"], $row["giayto"]);
+            $maHoSo = $row["mahoso"];
         }
         $stmt->close();
         $conn->close();
-        return $HoSo;
+        return $maHoSo;
     }
 }
 
@@ -120,17 +121,18 @@ class ChonNganh
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL ThemChonNganh(?,?,?,?,?,?,?)");
         $stmt->bind_param("isssiii", $chonNganh->mahoso, $chonNganh->manganhhoc, $chonNganh->hinhthuc, $chonNganh->tohop, $chonNganh->diemm1, $chonNganh->diemm2, $chonNganh->diemm3);
-        $success = $stmt->execute();
+        $success = $stmt->execute();    
         $stmt->close();
         $conn->close();
         return $success;
     }
 
-    public static function XemTrangThai(string $tuKhoa)
+    public static function XemTrangThai(string $mahs)
     {
+        $trangThai = "";
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL XemTrangThaiHS (?)");
-        $stmt->bind_param("s", $tuKhoa);
+        $stmt->bind_param("s", $mahs);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($row = $result->fetch_assoc()) {
