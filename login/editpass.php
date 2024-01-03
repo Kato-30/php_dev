@@ -3,18 +3,33 @@
 <?php
 include("login_acc.php");
 session_start();
+$emaile = "";
+$errs = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["acc"];
-    $password = $_POST["password"];
+    $emaile = $_POST["acc"];
+    $matkhaue = $_POST["password"];
+    $ktramke = $_POST["checkpassword"];
 
-    $success = Login::EditAcc($username, $password);
-
-    if ($success) {
-        echo "<script>alert(\"Đổi mật khẩu thành công!\");</script>";
-        header("location: /myapp/php_dev/login/login.php");
-    } else {
-        echo "<script>alert(\"Đổi mật khẩu thất bại!\");</script>";
+    if (strlen($matkhaue) < 8 || containsSpecialCharacters($matkhaue) == false) {
+        $errs["mk"] = "Mật khẩu phải chứa ít nhất 8 ký tự và 1 ký tự đặc biệt!";
     }
+    if ($matkhaue != $ktramke) {
+        $errs["ktra"] = "Nhập lại mật khẩu không trùng khớp!";
+    }
+    if (empty($errs)) {
+        $success = Login::EditAcc($emaile, $matkhaue);
+        if ($success) {
+            echo "<script>alert(\"Đổi mật khẩu thành công!\");</script>";
+        } else {
+            echo "<script>alert(\"Đổi mật khẩu thất bại!\");</script>";
+        }
+    }
+}
+
+function containsSpecialCharacters($input)
+{
+    $regex = "/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/";
+    return preg_match($regex, $input);
 }
 
 ?>
@@ -66,6 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <a class="nav-link" href="#">Theo dõi trạng thái hồ sơ xét tuyển</a>
                     </li>
                 </ul>
+                <span class="navbar-text">
+                    <a href="/myapp/php_dev/login/login.php">Login</a>
+                </span>
             </div>
         </div>
     </nav>
@@ -77,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h4 class="modal-title">Đổi mật khẩu</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post">
+                        <form action="" method="post" id="formEditpass">
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label for="acc" class="form-label">Email <span class="text-danger">*</span></label>
@@ -86,7 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="input-group">
                                         <div class="input-group-text"><i class="bi bi-envelope-fill"></i>
                                         </div>
-                                        <input type="email" class="form-control" id="acc" name="acc" required>
+                                        <input type="email" class="form-control" id="acc" name="acc" required
+                                            value="<?php echo $emaile ?>">
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="password" class="form-control" name="password" id="password"
                                             required>
                                     </div>
+                                    <?php echo isset($errs["mk"]) ? "<span class=\"text-danger\">" . $errs["mk"] . "</span>" : ""; ?>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -116,6 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="password" class="form-control" name="checkpassword"
                                             id="checkpassword" required>
                                     </div>
+                                    <?php echo isset($errs["ktra"]) ? "<span class=\"text-danger\">" . $errs["ktra"] . "</span>" : ""; ?>
                                 </div>
                             </div>
                             <div class="text-center">

@@ -2,8 +2,8 @@
 <?php
 include("login_acc.php");
 session_start();
-$ma = $hodem = $ten = $ngaysinh = $gioitinh = $sdt = $email = $trangthai = $giayto = $matkhau = $ktramk = "";
-$errSdt = $errPass = $errCheckpass = "";
+$hodem = $ten = $ngaysinh = $gioitinh = $sdt = $email = $trangthai = $giayto = $matkhau = $ktramk = "";
+$err = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ma = null;
     $hodem = $_POST["lname"];
@@ -18,26 +18,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ktramk = $_POST["checkpassword"];
 
     if (strlen($sdt) != 10) {
-        $errSdt = "Số điện thoại không hợp lệ!";
-        // echo "<script>alert(\"Số điện thoại không hợp lệ!\");</script>";
+        $err["sdt"] = "Số điện thoại không hợp lệ!";
     }
     if (strlen($matkhau) < 8 || containsSpecialCharacters($matkhau) == false) {
-        $errPass = "Mật khẩu phải chứa ít nhất 8 ký tự và 1 ký tự đặc biệt!";
-        // echo "<script>alert(\"Mật khẩu phải chứa ít nhất 8 ký tự và 1 ký tự đặc biệt!\");</script>";
+        $err["matkhau"] = "Mật khẩu phải chứa ít nhất 8 ký tự và 1 ký tự đặc biệt!";
     }
     if ($matkhau != $ktramk) {
-        $errCheckpass = "Nhập lại mật khẩu không trùng khớp!";
-        // echo "<script>alert(\"Nhập lại mật khẩu không trùng khớp!\");</script>";
+        $err["ktramk"] = "Nhập lại mật khẩu không trùng khớp!";
     }
-    $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email, $trangthai, $giayto);
-
-    $success = HoSo::Add($hoSo, $matkhau);
-
-    if ($success) {
-        // echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
-        header("location: /myapp/php_dev/login/login.php");
-    } else {
-        echo "<script>alert(\"Đăng ký tài khoản thất bại!\");</script>";
+    if (empty($err)) {
+        $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email, $trangthai, $giayto);
+        $success = HoSo::Add($hoSo, $matkhau);
+        if ($success) {
+            echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
+        } else {
+            echo "<script>alert(\"Đăng ký tài khoản thất bại!\");</script>";
+        }
     }
 }
 
@@ -96,6 +92,9 @@ function containsSpecialCharacters($input)
                         <a class="nav-link" href="#">Theo dõi trạng thái hồ sơ xét tuyển</a>
                     </li>
                 </ul>
+                <span class="navbar-text">
+                    <a href="/myapp/php_dev/login/login.php">Login</a>
+                </span>
             </div>
         </div>
     </nav>
@@ -110,7 +109,8 @@ function containsSpecialCharacters($input)
                         <form action="" method="post" id="formRegis">
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="lname" class="form-label">Họ đệm <span class="text-danger">*</span></label>
+                                    <label for="lname" class="form-label">Họ đệm <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="lname" name="lname" required
                                         placeholder="Nhập họ và tên đệm của bạn..." value="<?php echo $hodem ?>">
                                 </div>
@@ -135,32 +135,30 @@ function containsSpecialCharacters($input)
                                             <input class="form-check-input" type="radio" name="gender" id="male"
                                                 value="0" required <?php if ($gioitinh == 0)
                                                     echo "checked" ?>>
-                                            <label class="form-check-label" for="male">Nam</label>
-                                        </div>
-                                        <div class="col form-check">
-                                            <input class="form-check-input" type="radio" name="gender" id="female"
+                                                <label class="form-check-label" for="male">Nam</label>
+                                            </div>
+                                            <div class="col form-check">
+                                                <input class="form-check-input" type="radio" name="gender" id="female"
                                                     value="1" required <?php if ($gioitinh == 1)
                                                     echo "checked" ?>>
-                                            <label class="form-check-label" for="female">Nữ</label>
-                                        </div>
-                                        <div class="col form-check">
-                                            <input class="form-check-input" type="radio" name="gender" id="other"
+                                                <label class="form-check-label" for="female">Nữ</label>
+                                            </div>
+                                            <div class="col form-check">
+                                                <input class="form-check-input" type="radio" name="gender" id="other"
                                                     value="-1" required <?php if ($gioitinh == -1)
                                                     echo "checked" ?>>
-                                            <label class="form-check-label" for="other">Khác</label>
+                                                <label class="form-check-label" for="other">Khác</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="phone" class="form-label">Số điện thoại <span
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Số điện thoại <span
                                                 class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="phone" name="phone" required
+                                        <input type="text" class="form-control" id="phone" name="phone" required
                                             placeholder="SĐT..." value="<?php echo $sdt ?>">
-                                    <span class="text-danger">
-                                        <?php echo $errSdt ?>
-                                    </span>
+                                    <?php echo isset($err["sdt"]) ? "<span class=\"text-danger\">" . $err["sdt"] . "</span>" : ""; ?>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email <span
@@ -175,18 +173,14 @@ function containsSpecialCharacters($input)
                                             class="text-danger">*</span></label>
                                     <input type="password" class="form-control" name="password" id="password" required
                                         placeholder="...">
-                                    <span class="text-danger">
-                                        <?php echo $errPass ?>
-                                    </span>
+                                    <?php echo isset($err["matkhau"]) ? "<span class=\"text-danger\">" . $err["matkhau"] . "</span>" : ""; ?>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="checkpassword" class="form-label">Xác nhận mật khẩu <span
                                             class="text-danger">*</span></label>
                                     <input type="password" class="form-control" name="checkpassword" id="checkpassword"
                                         required placeholder="...">
-                                    <span class="text-danger">
-                                        <?php echo $errCheckpass ?>
-                                    </span>
+                                    <?php echo isset($err["ktramk"]) ? "<span class=\"text-danger\">" . $err["ktramk"] . "</span>" : ""; ?>
                                 </div>
                             </div>
                             <div class="text-center">
