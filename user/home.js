@@ -34,3 +34,11 @@ function addOption(selectElement, text, value) {
     var option = $("<option></option>").text(text).val(value);
     selectElement.append(option);
 }
+
+
+
+
+
+//ktra 
+
+
