@@ -10,7 +10,6 @@ class HoSo
     public $sdt;
     public $email;
 
-
     public function __construct($ma, $hd, $t, $ns, $gt, $sdt, $email)
     {
         $this->ma = $ma;
@@ -40,15 +39,21 @@ class HoSo
 
     public static function Edit(HoSo $hoso)
     {
-        //Update into...
+        $success = false;
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL SuaHoSo(?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("isssisssi", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email);
+        $success = $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return $success;
     }
 
     public static function Delete($mahoso)
     {
         $success = false;
         $conn = DBConnection::Connect();
-        $sql = "DELETE FROM tbhoso WHERE mahoso=?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conn->prepare("CALL XoaHoSo(?)");
         $stmt->bind_param("s", $mahoso);
         $success = $stmt->execute();
         $stmt->close();
@@ -71,18 +76,18 @@ class HoSo
 
     public static function Get($tukhoa)
     {
-        $maHoSo = "";
+        $dsHoSo = array();
         $conn = DBConnection::Connect();
-        $stmt = $conn->prepare("SELECT mahoso FROM tbhoso WHERE email = ?");
+        $stmt = $conn->prepare("CALL TimHoSo(?)");
         $stmt->bind_param("s", $tukhoa);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($row = $result->fetch_assoc()) {
-            $maHoSo = $row["mahoso"];
+        while ($row = $result->fetch_assoc()) {
+            $dsHoSo[] = new HoSo($row["mahoso"], $row["hodem"], $row["ten"], $row["ngaysinh"], $row["gioitinh"], $row["sdt"], $row["email"]);
         }
         $stmt->close();
         $conn->close();
-        return $maHoSo;
+        return $dsHoSo;
     }
 }
 
@@ -117,7 +122,7 @@ class ChonNganh
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL ThemChonNganh(?,?,?,?,?,?,?)");
         $stmt->bind_param("isssiii", $chonNganh->mahoso, $chonNganh->manganhhoc, $chonNganh->hinhthuc, $chonNganh->tohop, $chonNganh->diemm1, $chonNganh->diemm2, $chonNganh->diemm3);
-        $success = $stmt->execute();    
+        $success = $stmt->execute();
         $stmt->close();
         $conn->close();
         return $success;
@@ -138,7 +143,6 @@ class ChonNganh
         $conn->close();
         return $trangThai;
     }
-
 }
 
 

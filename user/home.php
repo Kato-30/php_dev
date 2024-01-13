@@ -11,16 +11,34 @@ if (isset($_SESSION["username"])) {
     $isLogin = true;
     $username = $_COOKIE["username"];
 }
-
+$hoso = HoSo::Get($username);
+$_SESSION["nganh"] = $_SESSION["hinhthuc"] = $_SESSION["tohop"] = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $hoso = HoSo::Get($username);
     $mahs = $hoso;
-    $nganh = $_POST["major"];
-    $hinhthuc = $_POST["hinhthuc"];
-    $tohop = $_POST["tohop"];
-    $d1 = $_POST["sbj1"];
-    $d2 = $_POST["sbj2"];
-    $d3 = $_POST["sbj3"];
+    if(isset($_POST["major"])) {
+        $nganh = $_POST["major"];
+        $_SESSION["nganh"] = $nganh;
+    }
+    if(isset($_POST["hinhthuc"])) {
+        $hinhthuc = $_POST["hinhthuc"];
+        $_SESSION["hinhthuc"] = $hinhthuc;
+    }
+    if(isset($_POST["tohop"])) {
+        $tohop = $_POST["tohop"];
+        $_SESSION["tohop"] = $tohop;
+    }
+    if(isset($_POST["sbj1"])) {
+        $d1 = $_POST["sbj1"];
+        $_SESSION["d1"] = $d1;
+    }
+    if(isset($_POST["sbj2"])) {
+        $d2 = $_POST["sbj2"];
+        $_SESSION["d2"] = $d2;
+    }
+    if(isset($_POST["sbj3"])) {
+        $d3 = $_POST["sbj3"];
+        $_SESSION["d3"] = $d3;
+    }
 
     if (isset($_POST["guiketqua"])) {
         if ($isLogin === false) {
@@ -89,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                         class="text-danger">*</span></label>
                                                 <select class="form-control" name="hinhthuc" id="ht" required>
                                                     <option value="">---Vui lòng chọn---</option>
-                                                    <option value="Học bạ">Học bạ</option>
-                                                    <option value="Điểm thi THPT quốc gia">Điểm thi THPT quốc gia
+                                                    <option value="Học bạ" <?php echo ($_SESSION["hinhthuc"] == "Học bạ") ? "selected" : ""; ?>>Học bạ</option>
+                                                    <option value="Điểm thi THPT quốc gia" <?php echo ($_SESSION["hinhthuc"] == "Điểm thi THPT quốc gia") ? "selected" : ""; ?>>Điểm thi THPT quốc gia
                                                     </option>
                                                 </select>
                                             </div>
@@ -100,27 +118,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                             class="text-danger">*</span></label>
                                                     <select class="form-control" name="major" id="major" required>
                                                         <option value="">---Vui lòng chọn---</option>
-                                                        <option value="7480201">CÔNG NGHỆ THÔNG TIN</option>
-                                                        <option value="7540101">CÔNG NGHỆ THỰC PHẨM</option>
-                                                        <option value="7510202">CÔNG NGHỆ CHẾ TẠO MÁY</option>
-                                                        <option value="7510205">CÔNG NGHỆ KỸ THUẬT Ô TÔ</option>
-                                                        <option value="7510301">CÔNG NGHỆ KỸ THUẬT ĐIỆN - ĐIỆN TỬ
+                                                        <option value="7480201" <?php echo ($_SESSION["nganh"] == "7480201") ? "selected" : ""; ?>>CÔNG NGHỆ THÔNG TIN</option>
+                                                        <option value="7540101" <?php echo ($_SESSION["nganh"] == "7540101") ? "selected" : ""; ?>>CÔNG NGHỆ THỰC PHẨM</option>
+                                                        <option value="7510202" <?php echo ($_SESSION["nganh"] == "7510202") ? "selected" : ""; ?>>CÔNG NGHỆ CHẾ TẠO MÁY</option>
+                                                        <option value="7510205" <?php echo ($_SESSION["nganh"] == "7510205") ? "selected" : ""; ?>>CÔNG NGHỆ KỸ THUẬT Ô TÔ</option>
+                                                        <option value="7510301" <?php echo ($_SESSION["nganh"] == "7510301") ? "selected" : ""; ?>>CÔNG NGHỆ KỸ THUẬT ĐIỆN - ĐIỆN TỬ
                                                         </option>
-                                                        <option value="7510206">CÔNG NGHỆ KỸ THUẬT NHIỆT - LẠNH</option>
-                                                        <option value="7510303">CÔNG NGHỆ KỸ THUẬT ĐIỀU KHIỂN - TỰ ĐỘNG
+                                                        <option value="7510206" <?php echo ($_SESSION["nganh"] == "7510206") ? "selected" : ""; ?>>CÔNG NGHỆ KỸ THUẬT NHIỆT - LẠNH</option>
+                                                        <option value="7510303" <?php echo ($_SESSION["nganh"] == "7510303") ? "selected" : ""; ?>>CÔNG NGHỆ KỸ THUẬT ĐIỀU KHIỂN - TỰ ĐỘNG
                                                             HÓA</option>
-                                                        <option value="7580210">KỸ THUẬT XÂY DỰNG</option>
-                                                        <option value="7720201">DƯỢC HỌC</option>
-                                                        <option value="7720301">ĐIỀU DƯỠNG</option>
-                                                        <option value="7340301">KẾ TOÁN</option>
-                                                        <option value="7340201">TÀI CHÍNH NGÂN HÀNG</option>
-                                                        <option value="7340101">QUẢN TRỊ KINH DOANH</option>
-                                                        <option value="7810103">QUẢN TRỊ DỊCH VỤ DU LỊCH VÀ LỮ HÀNH
+                                                        <option value="7580210" <?php echo ($_SESSION["nganh"] == "7580210") ? "selected" : ""; ?>>KỸ THUẬT XÂY DỰNG</option>
+                                                        <option value="7720201" <?php echo ($_SESSION["nganh"] == "7720201") ? "selected" : ""; ?>>DƯỢC HỌC</option>
+                                                        <option value="7720301" <?php echo ($_SESSION["nganh"] == "7720301") ? "selected" : ""; ?>>ĐIỀU DƯỠNG</option>
+                                                        <option value="7340301" <?php echo ($_SESSION["nganh"] == "7340301") ? "selected" : ""; ?>>KẾ TOÁN</option>
+                                                        <option value="7340201" <?php echo ($_SESSION["nganh"] == "7340201") ? "selected" : ""; ?>>TÀI CHÍNH NGÂN HÀNG</option>
+                                                        <option value="7340101" <?php echo ($_SESSION["nganh"] == "7340101") ? "selected" : ""; ?>>QUẢN TRỊ KINH DOANH</option>
+                                                        <option value="7810103" <?php echo ($_SESSION["nganh"] == "7810103") ? "selected" : ""; ?>>QUẢN TRỊ DỊCH VỤ DU LỊCH VÀ LỮ HÀNH
                                                         </option>
-                                                        <option value="7810201">QUẢN TRỊ KHÁCH SẠN</option>
-                                                        <option value="7340109">MARKETING</option>
-                                                        <option value="7220201">NGÔN NGỮ ANH</option>
-                                                        <option value="7380101">LUẬT</option>
+                                                        <option value="7810201" <?php echo ($_SESSION["nganh"] == "7810201") ? "selected" : ""; ?>>QUẢN TRỊ KHÁCH SẠN</option>
+                                                        <option value="7340109" <?php echo ($_SESSION["nganh"] == "7340109") ? "selected" : ""; ?>>MARKETING</option>
+                                                        <option value="7220201" <?php echo ($_SESSION["nganh"] == "7220201") ? "selected" : ""; ?>>NGÔN NGỮ ANH</option>
+                                                        <option value="7380101" <?php echo ($_SESSION["nganh"] == "7380101") ? "selected" : ""; ?>>LUẬT</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
@@ -135,17 +153,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="col-md-4">
                                                     <label for="sbj1" class="form-label">Điểm môn 1</label>
                                                     <input class="form-control" type="number" name="sbj1" id="sbj1"
-                                                        required>
+                                                        required value="<?php echo isset($_SESSION["d1"]) ? $_SESSION["d1"] : ""; ?>">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="sbj2" class="form-label">Điểm môn 2</label>
                                                     <input class="form-control" type="number" name="sbj2" id="sbj2"
-                                                        required>
+                                                        required value="<?php echo isset($_SESSION["d2"]) ? $_SESSION["d2"] : ""; ?>">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="sbj3" class="form-label">Điểm môn 3</label>
                                                     <input class="form-control" type="number" name="sbj3" id="sbj3"
-                                                        required>
+                                                        required value="<?php echo isset($_SESSION["d3"]) ? $_SESSION["d3"] : ""; ?>">
                                                 </div>
                                             </div>
                                             <button type="submit" name="guiketqua"
@@ -173,11 +191,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="modal-body">
                                         <?php
                                         if ($isLogin === true) {
-                                            $tt = ChonNganh::XemTrangThai($username);
-                                            if ($tt === "") {
+                                            $dstt = ChonNganh::XemTrangThai($hoso);
+                                            if ($dstt === "") {
                                                 echo "<strong>Chưa có thông tin</strong>";
                                             } else {
-                                                echo "<strong>" . $tt . "</strong>";
+                                                ?>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Ngành đăng ký</th>
+                                                        <th>Kết quả</th>
+                                                    </tr>
+                                                <?php
+                                                foreach ($dstt as $item) {
+                                                    ?>
+                                                    <tr>
+                                                        <td>
+                                                            <?php echo $item["tennganh"] ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $item["tentrangthai"] ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                                ?>
+                                                </table>
+                                                <span class="text-danger">Nếu trúng tuyển*</span><br>
+                                                <span>Mang hồ sơ gốc đến đăng ký trực tiếp tại: Toà Nhà Polyco, Trịnh Văn Bô, Nam Từ Liêm, Hà Nội</span>
+                                                <?php
                                             }
                                         } else {
                                             ?>

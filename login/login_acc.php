@@ -7,28 +7,34 @@ class Login
     public $pass;
     public $quyen;
 
-    public static function GetAcc(string $email, string $mk)
+    public static function GetAcc($email, $mk)
     {
         $conn = DBConnection::Connect();
-        $sql = "SELECT * FROM tbtaikhoan WHERE email = ? and matkhau = ?";
+        $sql = "SELECT * FROM tbtaikhoan WHERE email = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $email, $mk);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            return true;
+            $row = $result->fetch_assoc();
+            if (md5($mk) === $row["matkhau"]) {
+                return true;
+            } else {
+                return false;
+            }
         }
         $stmt->close();
         $conn->close();
     }
 
-    public static function EditAcc(string $email, string $mk)
+    public static function EditAcc($email, $mk)
     {
         $success = false;
         $conn = DBConnection::Connect();
+        $hashed_password = md5($mk);
         $sql = "UPDATE tbtaikhoan SET matkhau = ? WHERE email = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $mk, $email);
+        $stmt->bind_param("ss", $hashed_password, $email);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();
@@ -46,10 +52,8 @@ class HoSo
     public $gioitinh;
     public $sdt;
     public $email;
-    public $trangthai;
-    public $giayto;
 
-    public function __construct($ma, $hd, $t, $ns, $gt, $sdt, $email, $tt, $giayto)
+    public function __construct($ma, $hd, $t, $ns, $gt, $sdt, $email)
     {
         $this->ma = $ma;
         $this->hodem = $hd;
@@ -58,20 +62,19 @@ class HoSo
         $this->gioitinh = $gt;
         $this->sdt = $sdt;
         $this->email = $email;
-        $this->trangthai = $tt;
-        $this->giayto = $giayto;
     }
     public function __destruct()
     {
 
     }
 
-    public static function Add(HoSo $hoso, string $mk)
+    public static function Add(HoSo $hoso, $mk)
     {
         $success = false;
         $conn = DBConnection::Connect();
+        $hashed_password = md5($mk);
         $stmt = $conn->prepare("CALL ThemHoSo(?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssissssisi", $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email, $hoso->trangthai, $hoso->giayto, $hoso->ma, $mk, $quyen);
+        $stmt->bind_param("isssisssi", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email, $hashed_password, $quyen);
         $quyen = 0;
         $success = $stmt->execute();
         $stmt->close();

@@ -35,7 +35,16 @@ function addOption(selectElement, text, value) {
     selectElement.append(option);
 }
 
+var storedValue = localStorage.getItem("tohop");
 
+if (storedValue) {
+    $("#tohop").value = storedValue;
+}
+
+$("#tohop").change(function (e) { 
+    e.preventDefault();
+    localStorage.setItem("tohop", $("#tohop").value);
+});
 
 
 
