@@ -76,15 +76,19 @@ class HoSo
 
     public static function Get($tukhoa)
     {
-        $dsHoSo = array();
+        $dsHoSo = new HoSo("", "", "", "", "", "", "");
+
+        if ($tukhoa == "") {
+            return $dsHoSo;
+        }
+
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL TimHoSo(?)");
         $stmt->bind_param("s", $tukhoa);
         $stmt->execute();
         $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $dsHoSo[] = new HoSo($row["mahoso"], $row["hodem"], $row["ten"], $row["ngaysinh"], $row["gioitinh"], $row["sdt"], $row["email"]);
-        }
+        $row = $result->fetch_assoc();
+        $dsHoSo = new HoSo($row["mahoso"], $row["hodem"], $row["ten"], $row["ngaysinh"], $row["gioitinh"], $row["sdt"], $row["email"]);
         $stmt->close();
         $conn->close();
         return $dsHoSo;

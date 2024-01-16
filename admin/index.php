@@ -3,9 +3,17 @@
 
 <?php
 include("data.php");
+$result = HoSo::Get("");
+
 $action = isset($_GET["action"]) ? $_GET["action"] : "0";
+if ($action == "1") {
+    $mahoso = isset($_GET["mahoso"]) ? $_GET["mahoso"] : "";
+    if ($mahoso != "") {
+        $result = HoSo::Get($mahoso);
+    }
+}
 //Xóa khách hàng nếu có yêu cầu
-if ($action == "2") {
+elseif ($action == "2") {
     $mahoso = isset($_GET["mahoso"]) ? $_GET["mahoso"] : "";
     if ($mahoso != "") {
         $success = HoSo::Delete($mahoso);
@@ -39,20 +47,23 @@ if ($action == "2") {
         <form action="" method="post">
             <div class="mb-3">
                 <label for="ma" class="form-label">Mã hồ sơ</label>
-                <input type="text" class="form-control" id="ma" name="ma" placeholder="Mã hồ sơ..." required>
+                <input type="text" class="form-control" id="ma" name="ma" value="<?php echo $result->ma; ?>"
+                    placeholder="Mã hồ sơ..." required>
             </div>
             <div class="mb-3">
                 <label for="hodem" class="form-label">Họ đệm</label>
-                <input type="text" class="form-control" id="hodem" name="hodem" placeholder="Họ đệm thí sinh..."
-                    required>
+                <input type="text" class="form-control" id="hodem" name="hodem" value="<?php echo $result->hodem; ?>"
+                    placeholder="Họ đệm thí sinh..." required>
             </div>
             <div class="mb-3">
                 <label for="ten" class="form-label">Tên</label>
-                <input type="text" class="form-control" id="ten" name="ten" placeholder="Tên thí sinh..." required>
+                <input type="text" class="form-control" id="ten" name="ten" value="<?php echo $result->ten; ?>"
+                    placeholder="Tên thí sinh..." required>
             </div>
             <div class="mb-3">
                 <label for="ngaysinh" class="form-label">Ngày sinh</label>
-                <input type="date" class="form-control" id="ngaysinh" name="ngaysinh" required>
+                <input type="date" class="form-control" id="ngaysinh" name="ngaysinh"
+                    value="<?php echo $result->ngaysinh ?>" required>
             </div>
             <div class="mb-3">
                 <label for="gioitinh" class="form-label">Giới tính</label>
@@ -73,11 +84,13 @@ if ($action == "2") {
             </div>
             <div class="mb-3">
                 <label for="Sdt" class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control" id="sdt" name="sdt" placeholder="SĐT..." required>
+                <input type="text" class="form-control" id="sdt" name="sdt" value="<?php echo $result->sdt; ?>"
+                    placeholder="SĐT..." required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required placeholder="Email...">
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo $result->email; ?>"
+                    required placeholder="Email...">
             </div>
             <div class="mb-3">
                 <div class="row">
@@ -134,7 +147,7 @@ if ($action == "2") {
                         <?php echo $item->email ?>
                     </td>
                     <td>
-                        <a href="dshoso.php?action=1&mahoso=<?php echo $item->ma ?>">Edit</a>
+                        <a href="index.php?action=1&mahoso=<?php echo $item->ma ?>">Edit</a>
                         <span> | </span>
                         <a onclick="return confirm('Do you want to delete this customer?');"
                             href="dshoso.php?action=2&mahoso=<?php echo $item->ma ?>">Delete</a>
