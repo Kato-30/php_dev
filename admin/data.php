@@ -29,8 +29,8 @@ class HoSo
     {
         $success = false;
         $conn = DBConnection::Connect();
-        $stmt = $conn->prepare("CALL ThemHoSo(?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("isssisssi", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email);
+        $stmt = $conn->prepare("CALL ThemHoSo(?,?,?,?,?,?,?)");
+        $stmt->bind_param("isssiss", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();
@@ -42,7 +42,7 @@ class HoSo
         $success = false;
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL SuaHoSo(?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("isssisssi", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email);
+        $stmt->bind_param("isssiss", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();
@@ -54,7 +54,7 @@ class HoSo
         $success = false;
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL XoaHoSo(?)");
-        $stmt->bind_param("s", $mahoso);
+        $stmt->bind_param("i", $mahoso);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();
@@ -89,6 +89,35 @@ class HoSo
         $conn->close();
         return $dsHoSo;
     }
+
+    public static function GetListDocs($mahs)
+    {
+        $dsGiayto = array();
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL XemGiayTo(?)");
+        $stmt->bind_param("i", $mahs);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $dsGiayto[] = $row["magiayto"];
+        }
+        $stmt->close();
+        $conn->close();
+        return $dsGiayto;
+    }
+
+    public static function AddDocs($mahs, $magiayto)
+    {
+        $success = false;
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL ThemGiayTo(?,?)");
+        $stmt->bind_param("is", $mahs, $magiayto);
+        $success = $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return $success;
+    }
+
 }
 
 class ChonNganh

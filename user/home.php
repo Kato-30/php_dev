@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?php
                                         if ($isLogin === true) {
                                             $dstt = ChonNganh::XemTrangThai($hoso);
-                                            if ($dstt === "") {
+                                            if (empty($dstt)) {
                                                 echo "<strong>Chưa có thông tin</strong>";
                                             } else {
                                                 ?>

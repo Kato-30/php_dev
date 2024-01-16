@@ -73,7 +73,7 @@ class HoSo
         $success = false;
         $conn = DBConnection::Connect();
         $hashed_password = md5($mk);
-        $stmt = $conn->prepare("CALL ThemHoSo(?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt = $conn->prepare("CALL ThemHoSo_TaiKhoan(?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param("isssisssi", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email, $hashed_password, $quyen);
         $quyen = 0;
         $success = $stmt->execute();

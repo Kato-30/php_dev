@@ -12,8 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gioitinh = $_POST["gender"];
     $sdt = $_POST["phone"];
     $email = $_POST["email"];
-    $trangthai = null;
-    $giayto = null;
     $matkhau = $_POST["password"];
     $ktramk = $_POST["checkpassword"];
 
@@ -27,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err["ktramk"] = "Nhập lại mật khẩu không trùng khớp!";
     }
     if (empty($err)) {
-        $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email, $trangthai, $giayto);
+        $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
         $success = HoSo::Add($hoSo, $matkhau);
         if ($success) {
             echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
