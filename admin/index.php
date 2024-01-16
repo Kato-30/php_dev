@@ -5,6 +5,14 @@
 include("data.php");
 $action = isset($_GET["action"]) ? $_GET["action"] : "0";
 $mahoso = isset($_GET["mahoso"]) ? $_GET["mahoso"] : "";
+
+$result = HoSo::Get("");
+if ($action == "1") {
+    if ($mahoso != "") {
+        $result = HoSo::Get($mahoso);
+    }
+}
+
 //Xóa hồ sơ nếu có yêu cầu
 if ($action == "2") {
     if ($mahoso != "") {
@@ -44,7 +52,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["search-btn"])) {
         if (isset($_POST["search"]) ? $_POST["search"] : "") {
             $tukhoa = $_POST["search"];
-            $ds = HoSo::Get($tukhoa);
+            $ds = HoSo::Search($tukhoa);
+        }
+    }
+
+    // Sửa hồ sơ
+    if (isset($_POST["modify-btn"])) {
+        $hoSo = new HoSo($mahoso, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
+        $success = HoSo::Edit($hoSo);
+        if ($success) {
+            echo "<script>alert(\"Sửa hồ sơ thành công!\");</script>";
+        } else {
+            echo "<script>alert(\"Sửa hồ sơ thất bại!\");</script>";
         }
     }
 }
@@ -69,44 +88,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container">
-        <h3 class="mt-3">Thông tin hồ sơ</h3>
+        <h2 class="mt-3">Thông tin hồ sơ</h2>
         <form action="index.php" method="post">
             <div class="mb-3">
                 <label for="hodem" class="form-label">Họ đệm</label>
-                <input type="text" class="form-control" id="hodem" name="hodem" placeholder="Họ đệm thí sinh...">
+                <input type="text" class="form-control" id="hodem" name="hodem" placeholder="Họ đệm thí sinh..."
+                    value="<?php echo $result->hodem; ?>">
             </div>
             <div class="mb-3">
                 <label for="ten" class="form-label">Tên</label>
-                <input type="text" class="form-control" id="ten" name="ten" placeholder="Tên thí sinh...">
+                <input type="text" class="form-control" id="ten" name="ten" placeholder="Tên thí sinh..."
+                    value="<?php echo $result->ten; ?>">
             </div>
             <div class="mb-3">
                 <label for="ngaysinh" class="form-label">Ngày sinh</label>
-                <input type="date" class="form-control" id="ngaysinh" name="ngaysinh">
+                <input type="date" class="form-control" id="ngaysinh" name="ngaysinh"
+                    value="<?php echo $result->ngaysinh; ?>">
             </div>
             <div class="mb-3">
                 <label for="gioitinh" class="form-label">Giới tính</label>
                 <div class="row">
                     <div class="col-md-2">
-                        <input class="form-check-input" type="radio" name="gioitinh" id="nam" value="0">
+                        <input class="form-check-input" type="radio" name="gioitinh" id="nam" value="0" <?php echo $result->gioitinh == 0 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="nam">Nam</label>
                     </div>
                     <div class="col-md-2">
-                        <input class="form-check-input" type="radio" name="gioitinh" id="nu" value="1">
+                        <input class="form-check-input" type="radio" name="gioitinh" id="nu" value="1" <?php echo $result->gioitinh == 1 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="nu">Nữ</label>
                     </div>
                     <div class="col-md-2">
-                        <input class="form-check-input" type="radio" name="gioitinh" id="khac" value="-1">
+                        <input class="form-check-input" type="radio" name="gioitinh" id="khac" value="-1" <?php echo $result->gioitinh == -1 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="khac">Khác</label>
                     </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="Sdt" class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control" id="sdt" name="sdt" placeholder="SĐT...">
+                <input type="text" class="form-control" id="sdt" name="sdt" placeholder="SĐT..."
+                    value="<?php echo $result->sdt; ?>">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email...">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email..."
+                    value="<?php echo $result->email; ?>">
             </div>
             <div class="mb-3">
                 <div class="row">
@@ -193,4 +217,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Xử lý phần trạng thái hồ sơ -->
 <!-- Danh sách giấy tờ -->
-<!-- Sửa hồ sơ -->

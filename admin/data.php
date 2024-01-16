@@ -41,7 +41,7 @@ class HoSo
     {
         $success = false;
         $conn = DBConnection::Connect();
-        $stmt = $conn->prepare("CALL SuaHoSo(?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt = $conn->prepare("CALL SuaHoSo(?,?,?,?,?,?,?)");
         $stmt->bind_param("isssiss", $hoso->ma, $hoso->hodem, $hoso->ten, $hoso->ngaysinh, $hoso->gioitinh, $hoso->sdt, $hoso->email);
         $success = $stmt->execute();
         $stmt->close();
@@ -75,6 +75,26 @@ class HoSo
     }
 
     public static function Get($tukhoa)
+    {
+        $dsHoSo = new HoSo("", "", "", "", "", "", "");
+
+        if ($tukhoa == "") {
+            return $dsHoSo;
+        }
+
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL TimHoSo(?)");
+        $stmt->bind_param("s", $tukhoa);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $dsHoSo = new HoSo($row["mahoso"], $row["hodem"], $row["ten"], $row["ngaysinh"], $row["gioitinh"], $row["sdt"], $row["email"]);
+        $stmt->close();
+        $conn->close();
+        return $dsHoSo;
+    }
+
+    public static function Search($tukhoa)
     {
         $dsHoSo = array();
         $conn = DBConnection::Connect();
@@ -119,6 +139,11 @@ class HoSo
     }
 
 }
+
+
+
+
+
 
 class ChonNganh
 {
