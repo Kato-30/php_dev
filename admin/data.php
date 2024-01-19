@@ -1,5 +1,7 @@
 <?php
-include("connection.php");
+include 'D:\Development\LapTrinhWeb_PHP\xampp\htdocs\myapp\php_dev\oop\connection.php';
+// include '../oop/connection.php';
+
 class HoSo
 {
     public $ma;
@@ -49,12 +51,12 @@ class HoSo
         return $success;
     }
 
-    public static function Delete($mahoso)
+    public static function Delete($mahs)
     {
         $success = false;
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL XoaHoSo(?)");
-        $stmt->bind_param("i", $mahoso);
+        $stmt->bind_param("i", $mahs);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();
@@ -138,6 +140,34 @@ class HoSo
         return $success;
     }
 
+    public static function XemNganhXetTuyen($mahs)
+    {
+        $dsNganhxettuyen = array();
+        $conn = DBConnection::Connect();
+        $sql = "SELECT tths.mahoso, nh.tennganh, cn.tohop, cn.diemmon1, cn.diemmon2, cn.diemmon3, tt.tentrangthai FROM `tbtrangthaihoso` tths JOIN `tbtrangthai` tt ON tths.matrangthai = tt.matrangthai JOIN `tbchonnganh` cn ON cn.mahoso = tths.mahoso JOIN `tbnganhhoc` nh ON cn.manganh = nh.manganh WHERE tths.manganh = cn.manganh AND tths.mahoso = ?;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $mahs);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $dsNganhxettuyen[] = $row;
+        }
+        $stmt->close();
+        $conn->close();
+        return $dsNganhxettuyen;
+    }
+
+    public static function KiemTra($mahs)
+    {
+        $success = false;
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL KiemTraXetTuyen(?)");
+        $stmt->bind_param("i", $mahs);
+        $success = $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return $success;
+    }
 }
 
 
@@ -145,7 +175,7 @@ class HoSo
 
 
 
-class ChonNganh
+class NganhHoc
 {
     public $mahoso;
     public $manganhhoc;
@@ -182,21 +212,6 @@ class ChonNganh
         return $success;
     }
 
-    public static function XemTrangThai($mahs)
-    {
-        $trangThai = array();
-        $conn = DBConnection::Connect();
-        $stmt = $conn->prepare("CALL XemTrangThaiHS (?)");
-        $stmt->bind_param("s", $mahs);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $trangThai[] = $row;
-        }
-        $stmt->close();
-        $conn->close();
-        return $trangThai;
-    }
 }
 
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-include("hoso.php");
+include("data.php");
 session_start();
 $isLogin = false;
 $username = "";
@@ -11,7 +11,7 @@ if (isset($_SESSION["username"])) {
     $isLogin = true;
     $username = $_COOKIE["username"];
 }
-$hoso = HoSo::Get($username);
+$hoso = ChonNganh::Get($username);
 $_SESSION["nganh"] = $_SESSION["hinhthuc"] = $_SESSION["tohop"] = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mahs = $hoso;

@@ -18,7 +18,7 @@ if ($action == "2") {
     if ($mahoso != "") {
         $success = HoSo::Delete($mahoso);
         if ($success) {
-            header("location: index.php");
+            header("Refresh:0");
         } else {
             echo "<script> alert('Xóa hồ sơ thất bại!');</script>";
         }
@@ -81,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
     <script src="home.js"></script>
     <title>Document</title>
@@ -162,6 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Sdt</th>
                 <th>Email</th>
                 <th>Danh sách giấy tờ</th>
+                <th>Kiểm tra xét tuyển</th>
                 <th></th>
             </tr>
             <?php
@@ -189,12 +191,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <td>
                         <?php echo $item->email ?>
                     </td>
-                    <td><a href="dsgt.php?mahoso=<?php echo $item->ma ?>">Giấy tờ</a></td>
+                    <td><a href="dsgt.php?mahoso=<?php echo $item->ma ?>">Xem</a></td>
+                    <td><a href="xettuyen.php?mahoso=<?php echo $item->ma ?>">Kiểm tra</a></td>
                     <td>
-                        <a href="index.php?action=1&mahoso=<?php echo $item->ma ?>">Edit</a>
+                        <a href="index.php?action=1&mahoso=<?php echo $item->ma ?>">Sửa</a>
                         <span> | </span>
                         <a onclick="return confirm('Bạn muốn xóa hồ sơ này?');"
-                            href="index.php?action=2&mahoso=<?php echo $item->ma ?>">Delete</a>
+                            href="index.php?action=2&mahoso=<?php echo $item->ma ?>">Xóa</a>
                     </td>
                 </tr>
                 <?php
@@ -215,5 +218,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-<!-- Xử lý phần trạng thái hồ sơ -->
 <!-- Danh sách giấy tờ -->
