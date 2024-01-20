@@ -172,49 +172,108 @@ class HoSo
 
 
 
-
-
-
 class NganhHoc
 {
-    public $mahoso;
-    public $manganhhoc;
-    public $hinhthuc;
+    public $manganh;
+    public $tennganh;
+    public $diem;
     public $tohop;
-    public $diemm1;
-    public $diemm2;
-    public $diemm3;
 
-    public function __construct($mahs, $manganh, $ht, $th, $d1, $d2, $d3)
+    public function __construct($manganh, $tennganh, $diem, $tohop)
     {
-        $this->mahoso = $mahs;
-        $this->manganhhoc = $manganh;
-        $this->hinhthuc = $ht;
-        $this->tohop = $th;
-        $this->diemm1 = $d1;
-        $this->diemm2 = $d2;
-        $this->diemm3 = $d3;
+        $this->manganh = $manganh;
+        $this->tennganh = $tennganh;
+        $this->diem = $diem;
+        $this->tohop = $tohop;
     }
     public function __destruct()
     {
 
     }
 
-    public static function Add(ChonNganh $chonNganh)
+    public static function Add(NganhHoc $nganhHoc)
     {
         $success = false;
         $conn = DBConnection::Connect();
-        $stmt = $conn->prepare("CALL ThemChonNganh(?,?,?,?,?,?,?)");
-        $stmt->bind_param("isssiii", $chonNganh->mahoso, $chonNganh->manganhhoc, $chonNganh->hinhthuc, $chonNganh->tohop, $chonNganh->diemm1, $chonNganh->diemm2, $chonNganh->diemm3);
+        $stmt = $conn->prepare("CALL ThemNganhHoc(?,?,?,?)");
+        $stmt->bind_param("ssss", $nganhHoc->manganh, $nganhHoc->tennganh, $nganhHoc->diem, $nganhHoc->tohop);
+        $success = $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return $success;
+    }
+    public static function Edit(NganhHoc $nganhHoc)
+    {
+        $success = false;
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL SuaNganhHoc(?,?,?,?)");
+        $stmt->bind_param("ssss", $nganhHoc->manganh, $nganhHoc->tennganh, $nganhHoc->diem, $nganhHoc->tohop);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();
         return $success;
     }
 
+    public static function Delete($mahs)
+    {
+        $success = false;
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL XoaNganhHoc(?)");
+        $stmt->bind_param("s", $mahs);
+        $success = $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return $success;
+    }
+
+    public static function GetAll()
+    {
+        $dsNganhHoc = array();
+        $conn = DBConnection::Connect();
+        $sql = "SELECT * FROM tbnganhhoc";
+        $result = $conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            $dsNganhHoc[] = new NganhHoc($row["manganh"], $row["tennganh"], $row["diemtrungtuyen"], $row["tohopxettuyen"]);
+        }
+        $conn->close();
+        return $dsNganhHoc;
+    }
+
+    public static function Get($tukhoa)
+    {
+        $dsNganhHoc = new NganhHoc("", "", "", "");
+
+        if ($tukhoa == "") {
+            return $dsNganhHoc;
+        }
+
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL TimNganhHoc(?)");
+        $stmt->bind_param("s", $tukhoa);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $dsNganhHoc = new NganhHoc($row["manganh"], $row["tennganh"], $row["diemtrungtuyen"], $row["tohopxettuyen"]);
+        $stmt->close();
+        $conn->close();
+        return $dsNganhHoc;
+    }
+
+    public static function Search($tukhoa)
+    {
+        $dsNganhHoc = array();
+        $conn = DBConnection::Connect();
+        $stmt = $conn->prepare("CALL TimNganhHoc(?)");
+        $stmt->bind_param("s", $tukhoa);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $dsNganhHoc[] = new NganhHoc($row["manganh"], $row["tennganh"], $row["diemtrungtuyen"], $row["tohopxettuyen"]);
+        }
+        $stmt->close();
+        $conn->close();
+        return $dsNganhHoc;
+    }
 }
-
-
-
 
 ?>

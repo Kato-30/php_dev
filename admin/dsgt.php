@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </td>
                 </tr>
             </table>
-            <span><a href="\myapp\php_dev\admin\index.php">Quay lại</a></span>
+            <span><a href="\myapp\php_dev\admin\hoso.php">Quay lại</a></span>
             <input type="submit" class="btn btn-primary float-end" name="submit" value="Xác nhận">
         </form>
     </div>

@@ -31,7 +31,7 @@ class ChonNganh
         $success = false;
         $conn = DBConnection::Connect();
         $stmt = $conn->prepare("CALL ThemChonNganh(?,?,?,?,?,?,?)");
-        $stmt->bind_param("isssiii", $chonNganh->mahoso, $chonNganh->manganhhoc, $chonNganh->hinhthuc, $chonNganh->tohop, $chonNganh->diemm1, $chonNganh->diemm2, $chonNganh->diemm3);
+        $stmt->bind_param("issssss", $chonNganh->mahoso, $chonNganh->manganhhoc, $chonNganh->hinhthuc, $chonNganh->tohop, $chonNganh->diemm1, $chonNganh->diemm2, $chonNganh->diemm3);
         $success = $stmt->execute();
         $stmt->close();
         $conn->close();

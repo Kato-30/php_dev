@@ -18,7 +18,7 @@ if ($action == "2") {
     if ($mahoso != "") {
         $success = HoSo::Delete($mahoso);
         if ($success) {
-            header("Refresh:0");
+            header("location: hoso.php");
         } else {
             echo "<script> alert('Xóa hồ sơ thất bại!');</script>";
         }
@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $success = HoSo::Add($hoSo);
         if ($success) {
             echo "<script>alert(\"Thêm hồ sơ thành công!\");</script>";
+            header("Refresh:0");
         } else {
             echo "<script>alert(\"Thêm hồ sơ thất bại!\");</script>";
         }
@@ -62,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $success = HoSo::Edit($hoSo);
         if ($success) {
             echo "<script>alert(\"Sửa hồ sơ thành công!\");</script>";
+            header("Refresh:0");
         } else {
             echo "<script>alert(\"Sửa hồ sơ thất bại!\");</script>";
         }
@@ -84,13 +86,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
     <script src="home.js"></script>
-    <title>Document</title>
+    <title>Hồ sơ</title>
 </head>
 
 <body>
     <div class="container">
         <h2 class="mt-3">Thông tin hồ sơ</h2>
-        <form action="index.php" method="post">
+        <form action="" method="post">
             <div class="mb-3">
                 <label for="hodem" class="form-label">Họ đệm</label>
                 <input type="text" class="form-control" id="hodem" name="hodem" placeholder="Họ đệm thí sinh..."
@@ -183,7 +185,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php echo $item->ngaysinh ?>
                     </td>
                     <td>
-                        <?php echo $item->gioitinh == 0 ? "Nam" : "Nữ" ?>
+                        <?php if ($item->gioitinh == 0) {
+                            echo "Nam";
+                        } elseif ($item->gioitinh == 1) {
+                            echo "Nữ";
+                        } else {
+                            echo "Khác";
+                        } ?>
                     </td>
                     <td>
                         <?php echo $item->sdt ?>
@@ -194,10 +202,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <td><a href="dsgt.php?mahoso=<?php echo $item->ma ?>">Xem</a></td>
                     <td><a href="xettuyen.php?mahoso=<?php echo $item->ma ?>">Kiểm tra</a></td>
                     <td>
-                        <a href="index.php?action=1&mahoso=<?php echo $item->ma ?>">Sửa</a>
+                        <a href="hoso.php?action=1&mahoso=<?php echo $item->ma ?>">Sửa</a>
                         <span> | </span>
                         <a onclick="return confirm('Bạn muốn xóa hồ sơ này?');"
-                            href="index.php?action=2&mahoso=<?php echo $item->ma ?>">Xóa</a>
+                            href="hoso.php?action=2&mahoso=<?php echo $item->ma ?>">Xóa</a>
                     </td>
                 </tr>
                 <?php
