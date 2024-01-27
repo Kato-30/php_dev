@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-include("login_acc.php");
+include("data.php");
 session_start();
 $hodem = $ten = $ngaysinh = $gioitinh = $sdt = $email = $trangthai = $giayto = $matkhau = $ktramk = "";
 $err = [];
@@ -25,12 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err["ktramk"] = "Nhập lại mật khẩu không trùng khớp!";
     }
     if (empty($err)) {
-        $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
-        $success = HoSo::Add($hoSo, $matkhau);
-        if ($success) {
-            echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
-        } else {
-            echo "<script>alert(\"Đăng ký tài khoản thất bại!\");</script>";
+        try {
+            $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
+            $success = HoSo::Add($hoSo, $matkhau);
+            if ($success) {
+                echo "<script>alert(\"Đăng ký tài khoản thành công!\");</script>";
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) {
+                echo "<script>alert(\"Tài khoản đã tồn tại!\");</script>";
+            } else {
+                echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
+            }
         }
     }
 }

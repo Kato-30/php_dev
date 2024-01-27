@@ -7,9 +7,13 @@ $mahoso = isset($_GET["mahoso"]) ? $_GET["mahoso"] : "";
 $ds = HoSo::XemNganhXetTuyen($mahoso);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $success = HoSo::KiemTra($mahoso);
-    if ($success) {
-        header("Refresh: 0");
+    try {
+        $success = HoSo::KiemTra($mahoso);
+        if ($success) {
+            header("Refresh: 0");
+        }
+    } catch (mysqli_sql_exception $e) {
+        echo "<script>alert(\"Lỗi: " . $e->getMessage() . "\");</script>";
     }
 }
 
@@ -76,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
             </table>
-            <span><a href="\myapp\php_dev\admin\hoso.php">Quay lại</a></span>
+            <span><a href="\myapp\php_dev\admin\home.php?tenfile=hoso.php">Quay lại</a></span>
             <input type="submit" class="btn btn-primary float-end" name="submit" value="Kiểm tra">
         </form>
     </div>

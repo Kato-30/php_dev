@@ -22,6 +22,7 @@ class HoSo
         $this->sdt = $sdt;
         $this->email = $email;
     }
+    
     public function __destruct()
     {
 
@@ -202,6 +203,7 @@ class NganhHoc
         $conn->close();
         return $success;
     }
+
     public static function Edit(NganhHoc $nganhHoc)
     {
         $success = false;

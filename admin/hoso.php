@@ -16,11 +16,13 @@ if ($action == "1") {
 //Xóa hồ sơ nếu có yêu cầu
 if ($action == "2") {
     if ($mahoso != "") {
-        $success = HoSo::Delete($mahoso);
-        if ($success) {
-            header("location: hoso.php");
-        } else {
-            echo "<script> alert('Xóa hồ sơ thất bại!');</script>";
+        try {
+            $success = HoSo::Delete($mahoso);
+            if ($success) {
+                header("location: home.php?tenfile=hoso.php");
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
     }
 }
@@ -39,33 +41,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Thêm hồ sơ
     if (isset($_POST["add-btn"])) {
-        $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
-        $success = HoSo::Add($hoSo);
-        if ($success) {
-            echo "<script>alert(\"Thêm hồ sơ thành công!\");</script>";
-            header("Refresh:0");
-        } else {
-            echo "<script>alert(\"Thêm hồ sơ thất bại!\");</script>";
+        try {
+            $hoSo = new HoSo($ma, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
+            $success = HoSo::Add($hoSo);
+            if ($success) {
+                echo "<script>alert(\"Thêm hồ sơ thành công!\");</script>";
+                header("Refresh:0");
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) {
+                echo "<script>alert(\"Lỗi: Trùng khóa chính, dữ liệu đã tồn tại!\");</script>";
+            } else {
+                echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
+            }
         }
     }
 
     // Tìm kiếm hồ sơ
     if (isset($_POST["search-btn"])) {
-        if (isset($_POST["search"]) ? $_POST["search"] : "") {
-            $tukhoa = $_POST["search"];
-            $ds = HoSo::Search($tukhoa);
+        try {
+            if (isset($_POST["search"]) ? $_POST["search"] : "") {
+                $tukhoa = $_POST["search"];
+                $ds = HoSo::Search($tukhoa);
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
+
     }
 
     // Sửa hồ sơ
     if (isset($_POST["modify-btn"])) {
-        $hoSo = new HoSo($mahoso, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
-        $success = HoSo::Edit($hoSo);
-        if ($success) {
-            echo "<script>alert(\"Sửa hồ sơ thành công!\");</script>";
-            header("Refresh:0");
-        } else {
-            echo "<script>alert(\"Sửa hồ sơ thất bại!\");</script>";
+        try {
+            $hoSo = new HoSo($mahoso, $hodem, $ten, $ngaysinh, $gioitinh, $sdt, $email);
+            $success = HoSo::Edit($hoSo);
+            if ($success) {
+                echo "<script>alert(\"Sửa hồ sơ thành công!\");</script>";
+                header("Refresh:0");
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
     }
 }
@@ -199,13 +214,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <td>
                         <?php echo $item->email ?>
                     </td>
-                    <td><a href="dsgt.php?mahoso=<?php echo $item->ma ?>">Xem</a></td>
-                    <td><a href="xettuyen.php?mahoso=<?php echo $item->ma ?>">Kiểm tra</a></td>
+                    <td><a href="home.php?tenfile=dsgt.php&mahoso=<?php echo $item->ma ?>">Xem</a></td>
+                    <td><a href="home.php?tenfile=xettuyen.php&mahoso=<?php echo $item->ma ?>">Kiểm tra</a></td>
                     <td>
-                        <a href="hoso.php?action=1&mahoso=<?php echo $item->ma ?>">Sửa</a>
+                        <a href="home.php?tenfile=hoso.php&action=1&mahoso=<?php echo $item->ma ?>">Sửa</a>
                         <span> | </span>
                         <a onclick="return confirm('Bạn muốn xóa hồ sơ này?');"
-                            href="hoso.php?action=2&mahoso=<?php echo $item->ma ?>">Xóa</a>
+                            href="home.php?tenfile=hoso.php&action=2&mahoso=<?php echo $item->ma ?>">Xóa</a>
                     </td>
                 </tr>
                 <?php
@@ -220,10 +235,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-
-
-
-
-
-
-<!-- Danh sách giấy tờ -->
+<!-- 
+    Danh sách giấy tờ
+    Hosting
+    Report
+    Testing
+-->

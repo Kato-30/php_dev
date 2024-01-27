@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 
 <?php
-include("login_acc.php");
+include("data.php");
 session_start();
+$username = "";
+$err = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["acc"];
-    $password = $_POST["password"];
+    $username = isset($_POST["acc"]) ? $_POST["acc"] : "";
+    $password = isset($_POST["password"]) ? $_POST["password"] : "";
 
-    $success = Login::GetAcc($username, $password);
+    if ($username != "admin") {
+        if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+            $err["email"] = "Không đúng định dạng email.";
+        }
+    }
 
-    if ($success) {
-        $_SESSION["username"] = $username;
-        setcookie("username", $username, time() + (86400 * 30), "/");
-        header("location: /myapp/php_dev/user/home.php");
-    } else {
-        echo "<script>alert(\"Đăng nhập thất bại!\");</script>";
+    if (empty($err)) {
+        $acc = Login::GetAcc($username);
+        if (md5($password) == $acc->pass && $acc->quyen == 0) {
+            $_SESSION["username"] = $username;
+            setcookie("username", $username, time() + (86400 * 30), "/");
+            header("location: /myapp/php_dev/user/home.php");
+        } elseif (md5($password) == $acc->pass && $acc->quyen == 1) {
+            $_SESSION["admin"] = $username;
+            setcookie("admin", $username, time() + (86400 * 30), "/");
+            header("location: /myapp/php_dev/admin/home.php");
+        } else {
+            echo "<script>alert(\"Đăng nhập thất bại!\");</script>";
+        }
     }
 }
 
@@ -87,8 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="input-group">
                                         <div class="input-group-text"><i class="bi bi-envelope-fill"></i>
                                         </div>
-                                        <input type="email" class="form-control" id="acc" name="acc" required>
+                                        <input type="text" class="form-control" id="acc" name="acc"
+                                            value="<?php echo $username ?>" required>
                                     </div>
+                                    <?php echo isset($err["email"]) ? "<span class=\"text-danger\">" . $err["email"] . "</span>" : ""; ?>
                                 </div>
                             </div>
                             <div class="row mb-3">

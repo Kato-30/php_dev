@@ -16,11 +16,13 @@ if ($action == "1") {
 //Xóa ngành học nếu có yêu cầu
 if ($action == "2") {
     if ($manganh != "") {
-        $success = NganhHoc::Delete($manganh);
-        if ($success) {
-            header("location: nganhhoc.php");
-        } else {
-            echo "<script> alert('Xóa ngành học thất bại!');</script>";
+        try {
+            $success = NganhHoc::Delete($manganh);
+            if ($success) {
+                header("location: home.php?tenfile=nganhhoc.php");
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
     }
 }
@@ -36,33 +38,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Thêm ngành học
     if (isset($_POST["add-btn"])) {
-        $nganhHoc = new NganhHoc($ma, $tennganh, $diem, $tohop);
-        $success = NganhHoc::Add($nganhHoc);
-        if ($success) {
-            echo "<script>alert(\"Thêm ngành học thành công!\");</script>";
-            header("Refresh:0");
-        } else {
-            echo "<script>alert(\"Thêm ngành học thất bại!\");</script>";
+        try {
+            $nganhHoc = new NganhHoc($ma, $tennganh, $diem, $tohop);
+            $success = NganhHoc::Add($nganhHoc);
+            if ($success) {
+                echo "<script>alert(\"Thêm ngành học thành công!\");</script>";
+                header("Refresh:0");
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) {
+                echo "<script>alert(\"Lỗi: Trùng khóa chính, dữ liệu đã tồn tại!\");</script>";
+            } else {
+                echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
+            }
         }
     }
 
     // Tìm kiếm ngành học
     if (isset($_POST["search-btn"])) {
-        if (isset($_POST["search"]) ? $_POST["search"] : "") {
-            $tukhoa = $_POST["search"];
-            $ds = NganhHoc::Search($tukhoa);
+        try {
+            if (isset($_POST["search"]) ? $_POST["search"] : "") {
+                $tukhoa = $_POST["search"];
+                $ds = NganhHoc::Search($tukhoa);
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
+
     }
 
     // Sửa ngành học
     if (isset($_POST["modify-btn"])) {
-        $nganhHoc = new NganhHoc($ma, $tennganh, $diem, $tohop);
-        $success = NganhHoc::Edit($nganhHoc);
-        if ($success) {
-            echo "<script>alert(\"Sửa ngành học thành công!\");</script>";
-            header("Refresh:0");
-        } else {
-            echo "<script>alert(\"Sửa ngành học thất bại!\");</script>";
+        try {
+            $nganhHoc = new NganhHoc($ma, $tennganh, $diem, $tohop);
+            $success = NganhHoc::Edit($nganhHoc);
+            if ($success) {
+                echo "<script>alert(\"Sửa ngành học thành công!\");</script>";
+                header("Refresh:0");
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
     }
 }
@@ -102,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="mb-3">
                 <label for="diem" class="form-label">Điểm trúng tuyển</label>
-                <input type="number" step="0.01" class="form-control" id="diem" name="diem" placeholder="Điểm trúng tuyển..."
-                    value="<?php echo $result->diem; ?>">
+                <input type="number" step="0.01" class="form-control" id="diem" name="diem"
+                    placeholder="Điểm trúng tuyển..." value="<?php echo $result->diem; ?>">
             </div>
             <div class="mb-3">
                 <label for="tohop" class="form-label">Tổ hợp xét tuyển</label>
@@ -155,10 +170,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php echo $item->tohop ?>
                     </td>
                     <td>
-                        <a href="nganhhoc.php?action=1&manganh=<?php echo $item->manganh ?>">Sửa</a>
+                        <a href="home.php?tenfile=nganhhoc.php&action=1&manganh=<?php echo $item->manganh ?>">Sửa</a>
                         <span> | </span>
                         <a onclick="return confirm('Bạn muốn xóa ngành học này?');"
-                            href="nganhhoc.php?action=2&manganh=<?php echo $item->manganh ?>">Xóa</a>
+                            href="home.php?tenfile=nganhhoc.php&action=2&manganh=<?php echo $item->manganh ?>">Xóa</a>
                     </td>
                 </tr>
                 <?php

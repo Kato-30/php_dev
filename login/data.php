@@ -7,7 +7,19 @@ class Login
     public $pass;
     public $quyen;
 
-    public static function GetAcc($email, $mk)
+    public function __construct($email, $pass, $quyen)
+    {
+        $this->email = $email;
+        $this->pass = $pass;
+        $this->quyen = $quyen;
+    }
+
+    public function __destruct()
+    {
+
+    }
+
+    public static function GetAcc($email)
     {
         $conn = DBConnection::Connect();
         $sql = "SELECT * FROM tbtaikhoan WHERE email = ?";
@@ -15,16 +27,18 @@ class Login
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            if (md5($mk) === $row["matkhau"]) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        // if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $acc = new Login($row["email"], $row["matkhau"], $row["quyen"]);
+        // if (md5($mk) == $row["matkhau"] && $row["quyen"] == 0) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+        // }
         $stmt->close();
         $conn->close();
+        return $acc;
     }
 
     public static function EditAcc($email, $mk)

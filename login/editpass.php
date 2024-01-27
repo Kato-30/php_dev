@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <?php
-include("login_acc.php");
+include("data.php");
 session_start();
 $emaile = "";
 $errs = [];
@@ -17,11 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errs["ktra"] = "Nhập lại mật khẩu không trùng khớp!";
     }
     if (empty($errs)) {
-        $success = Login::EditAcc($emaile, $matkhaue);
-        if ($success) {
-            echo "<script>alert(\"Đổi mật khẩu thành công!\");</script>";
-        } else {
-            echo "<script>alert(\"Đổi mật khẩu thất bại!\");</script>";
+        try {
+            $success = Login::EditAcc($emaile, $matkhaue);
+            if ($success) {
+                echo "<script>alert(\"Đổi mật khẩu thành công!\");</script>";
+            }
+        } catch (mysqli_sql_exception $e) {
+            echo "<script>alert(\"Lỗi: " . $e->getMessage() . "!\");</script>";
         }
     }
 }

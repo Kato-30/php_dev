@@ -44,9 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($isLogin === false) {
             echo "<script>alert(\"Vui lòng đăng nhập để xét tuyển!\");</script>";
         } else {
-            $chon = new ChonNganh($mahs, $nganh, $hinhthuc, $tohop, $d1, $d2, $d3);
-            ChonNganh::Add($chon);
-            echo "<script>alert(\"Cảm ơn bạn đã xét tuyển!\");</script>";
+            try {
+                $chon = new ChonNganh($mahs, $nganh, $hinhthuc, $tohop, $d1, $d2, $d3);
+                ChonNganh::Add($chon);
+                echo "<script>alert(\"Cảm ơn bạn đã xét tuyển!\");</script>";
+            } catch (mysqli_sql_exception $e) {
+                if ($e->getCode() == 1062) {
+                    echo "<script>alert(\"Bạn đã xét tuyển vào ngành học này!\");</script>";
+                } else {
+                    echo "<script>alert(\"Lỗi: " . $e->getMessage() . "\");</script>";
+                }
+            }
         }
     }
 }
@@ -266,7 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     } else {
                         ?>
                         <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
-                            href="/myapp/php_dev/login/regis.php">Sign in</a>
+                            href="/myapp/php_dev/login/regis.php">Sign up</a>
                         <?php
                     }
                     ?>
