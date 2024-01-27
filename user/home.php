@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../user/img/logoeaut.jpg" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
     <script src="home.js"></script>
     <title>Tuyển sinh Trường Đại học Công Nghệ Đông Á</title>
@@ -270,11 +270,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php
                     if ($isLogin === true) {
                         echo "<span style=\"color: white\">" . $username . " | </span><a
-                        href=\"/myapp/php_dev/login/logout.php\">Logout</a>";
+                        href=\"../login/logout.php\">Logout</a>";
                     } else {
                         ?>
-                        <a href="/myapp/php_dev/login/login.php">Login</a><span> | </span><a
-                            href="/myapp/php_dev/login/regis.php">Sign up</a>
+                        <a href="../login/login.php">Login</a><span> | </span><a
+                            href="../login/regis.php">Sign up</a>
                         <?php
                     }
                     ?>

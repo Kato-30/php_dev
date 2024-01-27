@@ -49,9 +49,9 @@ function containsSpecialCharacters($input)
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="/myapp/php_dev/user/home.css">
-    <script src="/myapp/php_dev/user/home.js"></script>
+    <link rel="shortcut icon" href="../user/img/logoeaut.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="../user/home.css">
+    <script src="../user/home.js"></script>
     <title>Change Password</title>
 </head>
 
@@ -60,7 +60,7 @@ function containsSpecialCharacters($input)
         <div class="container">
             <div class="logo row">
                 <div class="col-md-12 d-flex align-items-center justify-content-center">
-                    <a href="/myapp/php_dev/user/home.php" title="EAUT - Trường Đại học Công nghệ Đông Á">
+                    <a href="../user/home.php" title="EAUT - Trường Đại học Công nghệ Đông Á">
                         <img src="https://eaut.edu.vn/wp-content/uploads/2018/11/logo-1.png" alt="Logo">
                     </a>
                 </div>
@@ -69,7 +69,7 @@ function containsSpecialCharacters($input)
     </header>
     <nav class="navbar navbar-expand-lg bg-nav">
         <div class="container">
-            <a class="navbar-brand" href="/myapp/php_dev/user/home.php"><i class="bi-house-fill"></i> EAUT</a>
+            <a class="navbar-brand" href="../user/home.php"><i class="bi-house-fill"></i> EAUT</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -84,7 +84,7 @@ function containsSpecialCharacters($input)
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <a href="/myapp/php_dev/login/login.php">Login</a>
+                    <a href="../login/login.php">Login</a>
                 </span>
             </div>
         </div>

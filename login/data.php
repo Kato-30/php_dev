@@ -1,5 +1,5 @@
 <?php
-include 'D:\Development\LapTrinhWeb_PHP\xampp\htdocs\myapp\php_dev\oop\connection.php';
+include '..\oop\connection.php';
 
 class Login
 {

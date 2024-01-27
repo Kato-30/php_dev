@@ -24,7 +24,7 @@ if (isset($_SESSION["admin"])) {
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../user/img/logoeaut.jpg" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
     <script src="home.js"></script>
     <title>Quản lý tuyển sinh EAUT</title>
@@ -51,10 +51,10 @@ if (isset($_SESSION["admin"])) {
                     <?php
                     if ($isLogin === true) {
                         echo "<span style=\"color: white\">" . $admin . " | </span><a
-                        href=\"/myapp/php_dev/login/logout.php?tenfile=admin\">Logout</a>";
+                        href=\"../login/logout.php?tenfile=admin\">Logout</a>";
                     } else {
                         ?>
-                        <a href="/myapp/php_dev/login/login.php">Login</a>
+                        <a href="../login/login.php">Login</a>
                         <?php
                     }
                     ?>

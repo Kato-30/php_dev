@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (md5($password) == $acc->pass && $acc->quyen == 0) {
             $_SESSION["username"] = $username;
             setcookie("username", $username, time() + (86400 * 30), "/");
-            header("location: /myapp/php_dev/user/home.php");
+            header("location: ../user/home.php");
         } elseif (md5($password) == $acc->pass && $acc->quyen == 1) {
             $_SESSION["admin"] = $username;
             setcookie("admin", $username, time() + (86400 * 30), "/");
-            header("location: /myapp/php_dev/admin/home.php");
+            header("location: ../admin/home.php");
         } else {
             echo "<script>alert(\"Đăng nhập thất bại!\");</script>";
         }
@@ -46,9 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="/myapp/php_dev/user/home.css">
-    <script src="/myapp/php_dev/user/home.js"></script>
+    <link rel="shortcut icon" href="../user/img/logoeaut.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="../user/home.css">
+    <script src="../user/home.js"></script>
     <title>Login</title>
 </head>
 
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container">
             <div class="logo row">
                 <div class="col-md-12 d-flex align-items-center justify-content-center">
-                    <a href="/myapp/php_dev/user/home.php" title="EAUT - Trường Đại học Công nghệ Đông Á">
+                    <a href="../user/home.php" title="EAUT - Trường Đại học Công nghệ Đông Á">
                         <img src="https://eaut.edu.vn/wp-content/uploads/2018/11/logo-1.png" alt="Logo">
                     </a>
                 </div>
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <nav class="navbar navbar-expand-lg bg-nav">
         <div class="container">
-            <a class="navbar-brand" href="/myapp/php_dev/user/home.php"><i class="bi-house-fill"></i> EAUT</a>
+            <a class="navbar-brand" href="../user/home.php"><i class="bi-house-fill"></i> EAUT</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="col-md-5">
                                     <label for="forgotpass" class="form-label"><a
-                                            href="/myapp/php_dev/login/editpass.php" class="text-decoration-none">Quên
+                                            href="../login/editpass.php" class="text-decoration-none">Quên
                                             mật khẩu</a></label>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary shadow">Đăng
                                         nhập</button>
-                                    <label for="regis" class="form-label"><a href="/myapp/php_dev/login/regis.php"
+                                    <label for="regis" class="form-label"><a href="../login/regis.php"
                                             class="ps-3 text-decoration-none">Đăng ký tài khoản</a></label>
                                 </div>
                             </div>
