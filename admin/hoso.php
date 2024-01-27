@@ -236,7 +236,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <!-- 
-    Danh sách giấy tờ
     Hosting
     Report
     Testing

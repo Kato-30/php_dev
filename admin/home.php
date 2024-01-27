@@ -63,11 +63,13 @@ if (isset($_SESSION["admin"])) {
         </div>
     </nav>
     <main>
-        <div class="row">
-            <div class="menu col-md-2 list-group list-group-flush">
-                <a href="home.php?tenfile=hoso.php" class="list-group-item list-group-item-action">Hồ sơ</a>
-                <a href="home.php?tenfile=nganhhoc.php" class="list-group-item list-group-item-action">Ngành học</a>
-                <a href="#" class="list-group-item list-group-item-action">Báo cáo</a>
+        <div class="row parent">
+            <div class="col-md-2">
+                <div class="menu list-group list-group-flush">
+                    <a href="home.php?tenfile=hoso.php" class="list-group-item list-group-item-action">Hồ sơ</a>
+                    <a href="home.php?tenfile=nganhhoc.php" class="list-group-item list-group-item-action">Ngành học</a>
+                    <a href="home.php?tenfile=baocao.php" class="list-group-item list-group-item-action">Báo cáo</a>
+                </div>
             </div>
             <div class="col-md-10">
                 <?php

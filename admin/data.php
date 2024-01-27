@@ -22,7 +22,7 @@ class HoSo
         $this->sdt = $sdt;
         $this->email = $email;
     }
-    
+
     public function __destruct()
     {
 
@@ -127,6 +127,21 @@ class HoSo
         $stmt->close();
         $conn->close();
         return $dsGiayto;
+    }
+
+    public static function CheckDocs($mahs, $magiayto)
+    {
+        $conn = DBConnection::Connect();
+        $sql = "SELECT * FROM `tbgiaytohoso` WHERE mahoso = ? and magiayto = ?;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $mahs, $magiayto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 0) {
+            return true;
+        }
+        $stmt->close();
+        $conn->close();
     }
 
     public static function AddDocs($mahs, $magiayto)

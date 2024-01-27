@@ -9,51 +9,14 @@ $dsGt = HoSo::GetListDocs($mahoso);
 $_POST["btnthpt"] = $_POST["cccd"] = $_POST["gbnh"] = $_POST["hbthpt"] = $_POST["khaisinh"] = $_POST["kqtthpt"] = $_POST["nvqs"] = $_POST["picture"] = $_POST["syll"] = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["btnthpt"]) && !in_array("btnthpt", $dsGt)) {
-        HoSo::AddDocs($mahoso, "btnthpt");
-    }
-    if (isset($_POST["cccd"])) {
-        if (!in_array("cccd", $dsGt)) {
-            HoSo::AddDocs($mahoso, "cccd");
+    if (isset($_POST["options"])) {
+        $selecOptions = $_POST["options"];
+        foreach ($selecOptions as $option) {
+            if (HoSo::CheckDocs($mahoso, $option)) {
+                HoSo::AddDocs($mahoso, $option);
+            }
         }
-    }
-    if (isset($_POST["gbnh"])) {
-        if (!in_array("gbnh", $dsGt)) {
-            HoSo::AddDocs($mahoso, "gbnh");
-        }
-    }
-    if (isset($_POST["hbthpt"])) {
-        if (!in_array("hbthpt", $dsGt)) {
-            HoSo::AddDocs($mahoso, "hbthpt");
-        }
-    }
-    if (isset($_POST["khaisinh"])) {
-        if (!in_array("khaisinh", $dsGt)) {
-            HoSo::AddDocs($mahoso, "khaisinh");
-        }
-    }
-    if (isset($_POST["kqtthpt"])) {
-        if (!in_array("kqtthpt", $dsGt)) {
-            HoSo::AddDocs($mahoso, "kqtthpt");
-        }
-    }
-    if (isset($_POST["nvqs"])) {
-        if (!in_array("nvqs", $dsGt)) {
-            HoSo::AddDocs($mahoso, "nvqs");
-        }
-    }
-    if (isset($_POST["picture"])) {
-        if (!in_array("picture", $dsGt)) {
-            HoSo::AddDocs($mahoso, "picture");
-        }
-    }
-    if (isset($_POST["syll"])) {
-        if (!in_array("syll", $dsGt)) {
-            HoSo::AddDocs($mahoso, "syll");
-        }
-    }
-    if (isset($_POST["submit"])) {
-        header("location: dsgt.php?mahoso=$mahoso");
+        header("refresh:0");
     }
 }
 
@@ -89,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>1</td>
                     <td>Bằng tốt nghiệp THPT</td>
-                    <td><input type="checkbox" name="btnthpt" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("btnthpt", $dsGt)) {
                         echo "checked";
                     }
@@ -99,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>2</td>
                     <td>Căn cước công dân</td>
-                    <td><input type="checkbox" name="cccd" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("cccd", $dsGt)) {
                         echo "checked";
                     }
@@ -109,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>3</td>
                     <td>Giấy báo nhập học</td>
-                    <td><input type="checkbox" name="gbnh" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("gbnh", $dsGt)) {
                         echo "checked";
                     }
@@ -119,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>4</td>
                     <td>Học bạ trung học phổ thông</td>
-                    <td><input type="checkbox" name="hbthpt" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("hbthpt", $dsGt)) {
                         echo "checked";
                     }
@@ -129,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>5</td>
                     <td>Giấy khai sinh</td>
-                    <td><input type="checkbox" name="khaisinh" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("khaisinh", $dsGt)) {
                         echo "checked";
                     }
@@ -139,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>6</td>
                     <td>Chứng nhận kết quả thi tốt nghiệp THPT</td>
-                    <td><input type="checkbox" name="kqtthpt" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("kqtthpt", $dsGt)) {
                         echo "checked";
                     }
@@ -149,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>7</td>
                     <td>Giấy chuyển nghĩa vụ quân sự</td>
-                    <td><input type="checkbox" name="nvqs" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("nvqs", $dsGt)) {
                         echo "checked";
                     }
@@ -159,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>8</td>
                     <td>Ảnh: 08 ảnh 3*4</td>
-                    <td><input type="checkbox" name="picture" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("picture", $dsGt)) {
                         echo "checked";
                     }
@@ -169,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tr>
                     <td>9</td>
                     <td>Sơ yếu lý lịch</td>
-                    <td><input type="checkbox" name="syll" <?php
+                    <td><input type="checkbox" name="options[]" <?php
                     if (in_array("syll", $dsGt)) {
                         echo "checked";
                     }
