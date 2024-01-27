@@ -36,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="shortcut icon" href="/myapp/php_dev/user/img/logoeaut.jpg" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
     <script src="home.js"></script>
-    <title>Giấy tờ nhập trường</title>
 </head>
 
 <body>

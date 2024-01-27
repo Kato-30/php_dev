@@ -37,11 +37,11 @@ footer {
     background-color: rgb(209, 209, 209);
 }
 
-
-
-
-
-/* admin */
 .search:hover {
     background-color: aqua;
+}
+
+#chart-container {
+    width: 100%;
+    height: auto;
 }
